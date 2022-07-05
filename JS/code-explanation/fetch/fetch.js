@@ -7,8 +7,11 @@
      - A função fetch recebe 2 parametros, o primeiro é o enpoint que estamos a chamar ou caminho para o fichero,
       o segundo é opcional, e é uma objeto onde podemos passar configurações
 
-    - endpoint == url ('string') - exemplo: 'http://localhost:5000/api/getProductsList'
-    - objeto == {} - exemplo: 
+    - endpoint == url ('string')
+      exemplo: 'http://localhost:5000/api/getProductsList'
+
+    - objeto == {} 
+     exemplo: 
     {
         method: 'POST', // *GET, POST, PUT, DELETE, etc. -- Metodos disponiveis de chamadas
         mode: 'cors', // no-cors, *cors, same-origin -- se permite chamar recursos de origens diferentes
@@ -24,26 +27,89 @@
 
 //Exemplo de Fetch:
 
-fetch('endpoint', { 
+fetch('endpoint', {
     //opcoes
-}).then(function(resposta){
+}).then(function (resposta) {
 
     //Esta função retorna uma novo objeto de Resposta  
     //https://developer.mozilla.org/en-US/docs/Web/API/Response
 
-    return resposta.json(); //Existe uma função neste objeto de resposta que nos permite converter a resposta em formato JSON.
+    return resposta.json(); //Existe uma função neste objeto de resposta que nos permite converter a resposta para formato JSON.
 
-}).then(function(respostaEmFormatoJSON){
-    /*
-    Aqui ja podemos usar a resposta em formato JSON porque no then() anterior retornamos ("return") a resposta usando o metodo json(); 
-    */
-    console.log(respostaEmFormatoJSON); // Imprimir na consola toda a resposta em formato json == objeto
+}).then(function (respostaEmFormatoJSON) {
+    /* Aqui ja podemos usar a resposta em formato JSON porque no then() anterior retornamos ("return") a resposta usando o metodo json(); */
+
+    console.log(respostaEmFormatoJSON); // Imprimir na consola toda a resposta em formato json == objeto (semelhante)
+}).catch(function (valorRejeitado) {
+    console.error(error) //caso aconteça algum erro iremos implrimir na consola o erro
 })
 
-/* A função Fetch retorna uma promise (Promesa) que é um objeto cujo valor pode existir no imediato, num futuro proximo, ou nunca.
+/**  
+A função Fetch retorna uma promise (Promesa) que é um objeto cujo valor pode existir no imediato, num futuro proximo, ou nunca.
 
 Sendo assim ela pode ter diferentes estados :
--- pending: estado inicial, significa que a operação da promise ainda não foi completada ou rejeitada. 
--- fulfilled: significa que a operação da promise foi completada com sucesso.
+-- pending: estado inicial, significa que a operação da promise ainda não foi concluida ou rejeitada. 
+-- fulfilled: significa que a operação da promise foi concluida com sucesso.
 -- rejected: significa que a operação da promise falhou e foi rejeitada.
+
+
+Mas então como fazemos para aguardar pela resolução da promise??
+Existem duas formas ou encademos o metodo then() que é um metodo das promises ou podemos utilizar a nomencula asyc/await (Ver mais afrente)
+NEste primeiro caso utilizamos o metodo then() 
+
+O metodo then() este metodo tambem retorna uma promise e recebe 2 parametros que são duas funções(Metodos)
+- o primeiro utilizado quando a promise é reolvida com sucesso
+- o segundo utilizado em caso da promise ser rejeitada 
+
+Esta segunda função/metodo pode ser omitida e podemos utilizar o metodo catch() para tratar das promises que foram rejeitadas
+ O metodo catch() recebe uma função como parametro onde podemos tratar o erro caso a promise tenha sido rejeitada.
+
 */
+
+//Versão 1 . Fetch com .then(func1, func2)
+
+fetch('http://localhost:5000/api/getProductsList') //não precisei de passar o 2º parametro que é um objeto de configuração e é opcional
+    .then(function (respostaConcluida) {
+
+        console.log("Promise Resolvida com Sucesso");
+        return respostaConcluida.json();
+
+    }, function (respostaRejeitada) {
+
+        console.log("Promise Rejeitada ");
+        console.error(respostaRejeitada);
+
+    }).then(function (respostaConcluidaJson) {
+
+        //Resposta da função positiva anterior em formato JSON
+        console.log(respostaConcluidaJson);
+    }, function (respostaRejeitada2) {
+
+        console.log("Segunda Promise Rejeitada ");
+        console.error(respostaRejeitada2);
+    })
+
+/** 
+ * Ter em atenção que no caso anterior o then() recebe os 2 parametros separados por , simplificado ficaria assim:
+ * fetch('...').then( function(...){...} , function(...){...}).then(function(...){...} , function(...){...})
+ * 
+ * Como este tipo de escrita é mais confuso é mais normal usarmos o then().catch() - ver Versão 2.
+*/
+
+//Versão 2 da mesma função com Catch
+fetch('http://localhost:5000/api/getProductsList') //não precisei de passar o 2º parametro que é um objeto de configuração e é opcional
+    .then(function (respostaConcluida) {
+
+        console.log("Promise Resolvida com Sucesso");
+        return respostaConcluida.json();
+
+    }).then(function (respostaConcluidaJson) {
+
+        //Resposta da função positiva anterior em formato JSON
+        console.log(respostaConcluidaJson);
+
+    }).catch(function (respostaRejeitada) {
+
+        console.log("Segunda Promise Rejeitada ");
+        console.error(respostaRejeitada);
+    })
