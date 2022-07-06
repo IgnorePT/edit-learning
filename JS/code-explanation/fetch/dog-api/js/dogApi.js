@@ -4,7 +4,7 @@
     Endpoint: https://dog.ceo/api/breeds/image/random Fetch!
 */
 
-console.log("We are a dog api!!!"); // Testar se fo ficheiro esta a ser carregado (Na consola do browser tem de aparecer esta mensagem)
+console.log("We are a dog api!!!"); // Testar se o ficheiro esta a ser carregado na página (Na consola do browser tem de aparecer esta mensagem)
 
 /**
  * O objetivo deste exercicio é usarmos o fetch para popular uma imagem no ficheiro index.html
@@ -13,12 +13,13 @@ console.log("We are a dog api!!!"); // Testar se fo ficheiro esta a ser carregad
  * 
  * Para popular a DOM e modificar precisamos de garantir que ela existe e o seu conteudo foi carregado
  * para isso podemos usar o metodo addEventListener passando o parametro de DOMContentLoaded e desta forma garantimos
- * que o codigo que for inserido na sua funcção(callback) ira correr depois de todos os elementos estarem carregados
+ * que o codigo que for inserido na sua função(tambem chamado de callback) ira correr depois de todos os elementos estarem carregados
  * 
  * Dentro de esta função entao podemos contactar a API para receber os dados e modificar a DOM
  */
 
 // Vamos usar metodo then().catch() para este exemplo
+// Criamos o addEventListener da window com o DOMContentLoaded
 window.addEventListener("DOMContentLoaded", function(){
     // Primeiro passo é fazermos fetch a API de forma a conseguirmos os dados necessario para popular a página (Ver ficheiro fetch.js)
     // Como a base do fetch é um metodo get simples não precisamos de passar o parametro opcional com as opções
@@ -44,6 +45,8 @@ window.addEventListener("DOMContentLoaded", function(){
             //Desta forma so precisamos de 
             document.getElementById('imageDog').setAttribute('src', resposeInJson.message);
 
+        }).catch(function(error) {
+            console.error(error); //Imprimimos o erro na consola caso alguma coisa falhe na API
         })
 
 })
