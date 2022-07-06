@@ -1,0 +1,35 @@
+@import "reset";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Outfit:wght@100;200;300;400;500;600;700&display=swap');
+
+:root{
+    --titles: #000958;
+}
+
+body{
+    background: #FFFAF5;
+}
+
+.dog_section{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    
+    h1{
+        font-family: 'Outfit', sans-serif;
+        font-size: 120px;
+        line-height: 100%;
+        color: var(--titles);
+        max-width: 6ch;
+    }
+
+    img{
+        height: 500;
+        width: 300px;
+        object-fit: cover;
+        border-radius: 200px;
+    }
+}
